@@ -14,7 +14,7 @@
 ```
 {r, eval = FALSE}
 https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties-recent.csv
-```
+
 
 # Read-in and store NY-Times data
 ```{r, message=FALSE, warning=FALSE}
