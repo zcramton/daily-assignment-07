@@ -40,7 +40,7 @@ top_6_states_data <- covid %>%
   summarize(state_cases = sum(cases, na.rm = TRUE))
 
 # Set up a gg plot
-ggplot(top_6_states_data, aes(x = date, y = state_cases, group = state, color = state)) +
+top_6_states_plot = ggplot(top_6_states_data, aes(x = date, y = state_cases, group = state, color = state)) +
   geom_line() +
   labs(
     title = "Cumulative Case Counts: COVID-19 Pandemic",
@@ -51,9 +51,20 @@ ggplot(top_6_states_data, aes(x = date, y = state_cases, group = state, color = 
     ) +
   facet_wrap(~state) + 
   theme_bw() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  theme(
+        axis.text.x = element_text(angle = 45, hjust = 1), 
+        legend.position = "none"
+        ) + 
   scale_x_date(date_breaks = "8 month", date_labels = "%b %y")
 
-# Save the polt as an image
-# ggsave("images/top_6_state_cases_plot.jpg")
+# Echo plot to dev env
+top_6_states_plot
+
+# Save the top_6_states_plot as an image
+ggsave(top_6_states_plot, 
+       file = "images\\top_6_state_cases_plot.jpg", 
+       width = 10,
+       height = 6,
+       units = c("in")
+       )
 
