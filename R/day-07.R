@@ -12,21 +12,41 @@
 # data set about COVID cases curated and maintained by the New York Times. The
 # data are archived on a GitHub repo [here](https://github.com/nytimes/covid-19-data). 
 
-# Read-in and store NY-Times data
+#Prepare libraries
 library(tidyverse)
 library(dplyr)
-url = 'https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties-recent.csv'
-covid = read_csv(url)
+library(ggplot2)
 
+# Read-in and store NY-Times data
+url <- 'https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties-recent.csv'
+covid <- read_csv(url)
+
+# Question 1
+  
 # Find the most recent date
 max_date <- max(covid$date)
 most_recent_data <- filter(covid, date == max_date)
-
-# Get the 5 counties with the most cases
-top_6_state_cases <- most_recent_data %>%
+  
+# Get the 6 states with the most cases
+top_6_states <- most_recent_data %>%
   arrange(desc(cases)) %>% 
-  slice(1:6)
+  slice(1:6) %>% 
+  pull(state)
 
-top_6_state_cases
+# Filter data to the top 6 states
+top_6_states_data <- covid %>% 
+  filter(state %in% top_6_states)
+
+# Set up a gg plot
+ggplot(top_6_states_data, aes(x = date, y = cases, group = state, color = state)) +
+  geom_line() +
+  labs(
+    title = "Cumulative Case Counts: COVID-19 Pandemic",
+    x = "Date",
+    y = "Number of Cases",
+    color = "State"
+    ) +
+  facet_wrap(~state, scales = "free")
+
 
 
