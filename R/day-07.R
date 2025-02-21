@@ -18,7 +18,7 @@ library(dplyr)
 library(ggplot2)
 
 # Read-in and store NY-Times data
-url <- 'https://raw.githubusercontent.com/nytimes/covid-19-data/refs/heads/master/us-counties.csv'
+url <- 'https://raw.githubusercontent.com/nytimes/covid-19-data/refs/heads/master/us-states.csv'
 covid <- read_csv(url)
 
 # Question 1
@@ -40,7 +40,7 @@ top_6_states_data <- covid %>%
   summarize(state_cases = sum(cases, na.rm = TRUE))
 
 # Set up a gg plot
-plot1 <- ggplot(top_6_states_data, aes(x = date, y = state_cases, group = state, color = state)) +
+ggplot(top_6_states_data, aes(x = date, y = state_cases, group = state, color = state)) +
   geom_line() +
   labs(
     title = "Cumulative Case Counts: COVID-19 Pandemic",
@@ -52,8 +52,8 @@ plot1 <- ggplot(top_6_states_data, aes(x = date, y = state_cases, group = state,
   facet_wrap(~state) + 
   theme_bw() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
-  scale_x_date(date_breaks = "1 month", date_labels = "%b")
+  scale_x_date(date_breaks = "8 month", date_labels = "%b %y")
 
 # Save the polt as an image
-# ggsave("images/top_6_state_cases_plot.jpg", plot1)
+# ggsave("images/top_6_state_cases_plot.jpg")
 
