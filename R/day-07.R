@@ -42,11 +42,12 @@ ggplot(top_6_states_data, aes(x = date, y = cases, group = state, color = state)
   geom_line() +
   labs(
     title = "Cumulative Case Counts: COVID-19 Pandemic",
+    caption = "Based on NY-Times COVID-19 Data.",
     x = "Date",
     y = "Number of Cases",
     color = "State"
     ) +
-  facet_wrap(~state, scales = "free")
-
-
-
+  facet_wrap(~state) + 
+  theme_linedraw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  scale_x_date(date_breaks = "1 month", date_labels = "%b")
