@@ -21,7 +21,7 @@ library(ggplot2)
 url <- 'https://raw.githubusercontent.com/nytimes/covid-19-data/refs/heads/master/us-states.csv'
 covid <- read_csv(url)
 
-# Question 1
+### Question 1
   
 # Find the most recent date
 max_date <- max(covid$date)
@@ -65,6 +65,34 @@ ggsave(top_6_states_plot,
        file = "images\\top_6_state_cases_plot.jpg", 
        width = 10,
        height = 6,
-       units = c("in")
-       )
+       units = c("in"))
+
+### Question 2
+
+# Find daily total cases in the US
+us_daily_cases_data <- covid %>% 
+  group_by(date) %>% 
+  summarize(us_cases = sum(cases, na.rm = TRUE))
+
+# Plot us_daily_cases_data
+us_daily_cases_plot = ggplot(us_daily_cases_data, aes(x = date, y = us_cases), group(month), color = "darkred") + 
+  geom_col() + 
+  labs(
+    title = "Cumulative Case Counts: US COVID-19 Pandemic",
+    caption = "Based on NY-Times COVID-19 Data.",
+    x = "Date",
+    y = "Number of Cases") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_x_date(date_breaks = "8 month", date_labels = "%b %y")
+
+# Echo the plot to dev env
+us_daily_cases_plot
+
+# Save the us_daily_plot as an image
+ggsave(us_daily_cases_plot,
+       file = "images\\us_daily_cases_plot.jpg",
+       width = 10,
+       height = 10,
+       units = c("in"))
 
