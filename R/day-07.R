@@ -23,7 +23,7 @@ max_date <- max(covid$date)
 most_recent_data <- filter(covid, date == max_date)
 
 # Get the 5 counties with the most cases
-top_6_states_cases <- most_recent_data %>%
+top_6_state_cases <- most_recent_data %>%
   arrange(desc(cases)) %>% 
   slice(1:6)
 
