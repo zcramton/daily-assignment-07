@@ -35,10 +35,12 @@ top_6_states <- most_recent_data %>%
 
 # Filter data to the top 6 states
 top_6_states_data <- covid %>% 
-  filter(state %in% top_6_states)
+  filter(state %in% top_6_states) %>% 
+  group_by(state, date) %>% 
+  summarize(state_cases = sum(cases, na.rm = TRUE))
 
 # Set up a gg plot
-ggplot(top_6_states_data, aes(x = date, y = cases, group = state, color = state)) +
+ggplot(top_6_states_data, aes(x = date, y = state_cases, group = state, color = state)) +
   geom_line() +
   labs(
     title = "Cumulative Case Counts: COVID-19 Pandemic",
@@ -47,7 +49,7 @@ ggplot(top_6_states_data, aes(x = date, y = cases, group = state, color = state)
     y = "Number of Cases",
     color = "State"
     ) +
-  facet_wrap(~state) + 
-  theme_linedraw() +
+  facet_wrap(~state, scales = "free_y") + 
+  theme_bw() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
   scale_x_date(date_breaks = "1 month", date_labels = "%b")
